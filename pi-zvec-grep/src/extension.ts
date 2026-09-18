@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 import { createZvecSearchEngine } from "./engine.js";
-import { WorkspaceRuntime, type WorkspaceRuntimeOptions } from "./runtime.js";
+import { INDEX_FAILURE_THRESHOLD, WorkspaceRuntime, type WorkspaceRuntimeOptions } from "./runtime.js";
 import type { RuntimeStatus, SearchEngine } from "./types.js";
 import { resolveWorkspaceRoot } from "./workspace.js";
 
@@ -18,7 +18,7 @@ export function registerPiZvecGrep(pi: ExtensionAPI, dependencies: ExtensionDepe
   let generation = 0;
 
   pi.on("before_agent_start", async (event) => ({
-    systemPrompt: `${event.systemPrompt}\n\nWorkspace search guidance:\n- Use zvec_search for semantic questions, cross-file concepts, architecture, or when the wording and location are unknown.\n- Use grep or the built-in exact-search tools for known exact identifiers, literals, file names, and regular expressions.\n- If zvec_search reports indexing or updating, do not loop or wait indefinitely; use exact search, continue other work, or retry later.`,
+    systemPrompt: `${event.systemPrompt}\n\nWorkspace search guidance:\n- Use zvec_search for semantic questions, cross-file concepts, architecture, or when the wording and location are unknown.\n- Use grep or the built-in exact-search tools for known exact identifiers, literals, file names, and regular expressions.\n- If zvec_search reports indexing or updating with retryable true, do not loop or wait indefinitely; use exact search, continue other work, or retry later.\n- If zvec_search reports retryable false, the workspace index is broken; use grep or read and do not retry zvec_search until the index is rebuilt.`,
   }));
 
   pi.registerTool({
@@ -32,8 +32,10 @@ export function registerPiZvecGrep(pi: ExtensionAPI, dependencies: ExtensionDepe
     async execute(_toolCallId, params, signal) {
       if (!runtime) return toolError("zvec workspace runtime is not ready; start a Pi session in a workspace and retry");
       try {
+        runtime.retryIndexingAfterBackoff();
         const status = runtime.status();
-        if (status.phase === "indexing" || status.phase === "updating") return indexNotReady(status.phase, runtime.root);
+        if (status.consecutiveFailures >= INDEX_FAILURE_THRESHOLD && status.error) return indexBroken(status);
+        if (status.phase === "indexing" || status.phase === "updating") return indexNotReady(status);
         const result = await runtime.search(params.query, { limit: params.limit, signal });
         return { content: [{ type: "text", text: result.text }], details: result.raw };
       } catch (cause) {
@@ -95,14 +97,29 @@ function toolError(message: string) {
   return { content: [{ type: "text" as const, text: message }], details: { error: message }, isError: true };
 }
 
-function indexNotReady(status: "indexing" | "updating", root: string) {
+function indexNotReady(status: RuntimeStatus) {
   const details = {
-    status,
-    retryable: true,
-    root,
+    status: status.phase,
+    retryable: true as const,
+    root: status.root,
     message: "The workspace index is not ready. Choose whether to use grep/read now or retry zvec_search later.",
+    ...(status.error ? { error: status.error, ...(status.errorCode ? { errorCode: status.errorCode } : {}) } : {}),
   };
   return { content: [{ type: "text" as const, text: JSON.stringify(details) }], details };
+}
+
+function indexBroken(status: RuntimeStatus) {
+  const error = status.error ?? `Workspace index failed: ${status.root}`;
+  const details = {
+    status: status.phase,
+    retryable: false as const,
+    root: status.root,
+    error,
+    ...(status.errorCode ? { errorCode: status.errorCode } : {}),
+    consecutiveFailures: status.consecutiveFailures,
+    message: `The workspace index failed repeatedly (${error}). It is not retryable. Rebuild the index with /zvec-reindex, or delete ${status.root}/.zvec-grep and retry.`,
+  };
+  return { content: [{ type: "text" as const, text: JSON.stringify(details) }], details, isError: true };
 }
 
 function renderStatus(ctx: any, status: RuntimeStatus): void {

@@ -2,17 +2,24 @@ import { ChangeBatcher } from "./change-batcher.js";
 import type { RuntimePhase, RuntimeStatus, SearchEngine, SearchResult } from "./types.js";
 import { WorkspaceWatcher } from "./watcher.js";
 
+export const INDEX_FAILURE_THRESHOLD = 3;
+export const INDEX_FAILURE_BACKOFF_MS = 30_000;
+
 export type WorkspaceRuntimeOptions = {
   watch?: boolean;
   debounceMs?: number;
   maxWaitMs?: number;
   reconcileIntervalMs?: number;
   closeTimeoutMs?: number;
+  indexFailureBackoffMs?: number;
 };
 
 export class WorkspaceRuntime {
   private phase: RuntimePhase = "idle";
   private error?: string;
+  private errorCode?: string;
+  private consecutiveFailures = 0;
+  private backoffUntil = 0;
   private lastIndexedAt?: string;
   private initial?: Promise<void>;
   private queue: Promise<void> = Promise.resolve();
@@ -25,6 +32,7 @@ export class WorkspaceRuntime {
   private readonly abortController = new AbortController();
   private readonly listeners = new Set<(status: RuntimeStatus) => void>();
   private readonly batcher: ChangeBatcher;
+  private readonly failureBackoffMs: number;
 
   constructor(
     readonly root: string,
@@ -32,6 +40,7 @@ export class WorkspaceRuntime {
     private readonly options: WorkspaceRuntimeOptions = {},
   ) {
     this.watcherState = options.watch === false ? "disabled" : "starting";
+    this.failureBackoffMs = options.indexFailureBackoffMs ?? INDEX_FAILURE_BACKOFF_MS;
     this.batcher = new ChangeBatcher((paths) => this.enqueueIndex(paths), {
       debounceMs: options.debounceMs,
       maxWaitMs: options.maxWaitMs,
@@ -87,6 +96,7 @@ export class WorkspaceRuntime {
   }
 
   async search(query: string, options?: { limit?: number; signal?: AbortSignal }): Promise<SearchResult> {
+    this.retryIndexingAfterBackoff();
     const status = this.status();
     if (status.phase === "error") throw new Error(status.error ?? `Workspace index failed: ${this.root}`);
     if (status.phase !== "ready") throw new IndexNotReadyError(status.phase, this.root);
@@ -96,14 +106,31 @@ export class WorkspaceRuntime {
   }
 
   async reindex(): Promise<void> {
-    const operation = this.enqueueIndex();
+    const operation = this.enqueueIndex(undefined, false, true);
     this.initial = operation;
     await operation;
   }
 
+  retryIndexingAfterBackoff(): void {
+    if (this.closed) return;
+    if (this.consecutiveFailures < INDEX_FAILURE_THRESHOLD) return;
+    if (this.phase === "indexing" || this.phase === "updating") return;
+    if (Date.now() < this.backoffUntil) return;
+    this.runBackground(this.enqueueIndex());
+  }
+
   status(): RuntimeStatus {
     const phase = this.phase === "ready" && this.batcher.pending ? "updating" : this.phase;
-    return { root: this.root, phase, error: this.error, lastIndexedAt: this.lastIndexedAt, pendingFiles: this.batcher.pendingCount, watcher: this.watcherState };
+    return {
+      root: this.root,
+      phase,
+      error: this.error,
+      errorCode: this.errorCode,
+      consecutiveFailures: this.consecutiveFailures,
+      lastIndexedAt: this.lastIndexedAt,
+      pendingFiles: this.batcher.pendingCount,
+      watcher: this.watcherState,
+    };
   }
 
   async close(): Promise<void> {
@@ -129,8 +156,12 @@ export class WorkspaceRuntime {
     if (failure) throw failure;
   }
 
-  private enqueueIndex(paths?: readonly string[], initial = false): Promise<void> {
+  private enqueueIndex(paths?: readonly string[], initial = false, force = false): Promise<void> {
     if (this.closed) return Promise.resolve();
+    if (!force && !initial && this.shouldSkipAutomaticIndex()) {
+      this.fullReconcilePending = true;
+      return Promise.resolve();
+    }
     const changedPaths = this.fullReconcilePending ? undefined : paths;
     this.fullReconcilePending = false;
     const operation = this.queue.then(async () => {
@@ -138,15 +169,18 @@ export class WorkspaceRuntime {
       const nextPhase = initial ? "indexing" : "updating";
       const phaseChanged = this.phase !== nextPhase;
       this.phase = nextPhase;
-      this.error = undefined;
       if (phaseChanged) this.emitStatus();
       try {
         await withBusyRetry(() => this.engine.index(changedPaths, { signal: this.abortController.signal }), this.abortController.signal);
         this.lastIndexedAt = new Date().toISOString();
         this.phase = "ready";
+        this.error = undefined;
+        this.errorCode = undefined;
+        this.consecutiveFailures = 0;
+        this.backoffUntil = 0;
         this.emitStatus();
       } catch (cause) {
-        this.captureError(cause);
+        this.recordIndexFailure(cause);
         throw cause;
       }
     });
@@ -154,9 +188,30 @@ export class WorkspaceRuntime {
     return operation;
   }
 
+  private shouldSkipAutomaticIndex(): boolean {
+    return this.consecutiveFailures >= INDEX_FAILURE_THRESHOLD && Date.now() < this.backoffUntil;
+  }
+
+  private recordIndexFailure(cause: unknown): void {
+    if (this.closed && this.abortController.signal.aborted) return;
+    const { message, code } = describeError(cause);
+    this.error = message;
+    this.errorCode = code;
+    if (!isBusyError(cause)) {
+      this.consecutiveFailures += 1;
+      if (this.consecutiveFailures >= INDEX_FAILURE_THRESHOLD) {
+        this.backoffUntil = Date.now() + this.failureBackoffMs;
+      }
+    }
+    this.phase = "error";
+    this.emitStatus();
+  }
+
   private captureError(cause: unknown): void {
     if (this.closed && this.abortController.signal.aborted) return;
-    this.error = cause instanceof Error ? cause.message : String(cause);
+    const { message, code } = describeError(cause);
+    this.error = message;
+    if (code) this.errorCode = code;
     this.phase = "error";
     this.emitStatus();
   }
@@ -216,4 +271,10 @@ async function settleWithin(operation: Promise<unknown>, timeoutMs: number): Pro
 function isBusyError(cause: unknown): boolean {
   if (!(cause instanceof Error)) return false;
   return cause.message.includes("LOCK.BUSY") || cause.message.toLowerCase().includes("lock busy") || ("code" in cause && String(cause.code).includes("LOCK.BUSY"));
+}
+
+function describeError(cause: unknown): { message: string; code?: string } {
+  if (!(cause instanceof Error)) return { message: String(cause) };
+  const code = "code" in cause && cause.code != null && String(cause.code) !== "" ? String(cause.code) : undefined;
+  return { message: cause.message, code };
 }
