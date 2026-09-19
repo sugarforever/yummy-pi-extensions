@@ -29,3 +29,11 @@ describe("prefilter", () => {
     expect(prefilter("look into the recent sessions of this project and tell me what changed")).toEqual({ skip: false });
   });
 });
+
+import { parseUnitInterval } from "../src/extension.js";
+
+describe("parseUnitInterval", () => {
+  test.each([["", undefined], ["  ", undefined], ["abc", undefined], ["-0.1", undefined], ["1.5", undefined], ["0", 0], ["1", 1], [" 0.6 ", 0.6], [undefined, undefined]])("%j → %j", (raw, expected) => {
+    expect(parseUnitInterval(raw as string | undefined)).toBe(expected);
+  });
+});

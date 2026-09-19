@@ -8,7 +8,8 @@ function harness(client: (state: RouterState) => Promise<JevAnswers>, options: {
   const handlers = new Map<string, Handler>();
   const commands = new Map<string, any>();
   const pi = { on: (name: string, h: Handler) => handlers.set(name, h), registerCommand: (name: string, c: any) => commands.set(name, c) };
-  registerPiJevRouter(pi as never, { client: async (state) => client(state), via: "fake", now: options.now });
+  // Fixtures are stamped 2026-09-19T10:00Z; pin "now" so the stale-session rule is exercised only on purpose.
+  registerPiJevRouter(pi as never, { client: async (state) => client(state), via: "fake", now: options.now ?? (() => Date.parse("2026-09-19T10:05:00Z")) });
   return { handlers, commands };
 }
 
@@ -124,12 +125,39 @@ describe("registerPiJevRouter", () => {
     expect(calls.setStatus.at(-1)?.[1]).toBe("route: skipped");
   });
 
+  test("/route-threshold rejects empty and out-of-range input", async () => {
+    const { commands } = harness(async () => stay());
+    const notes: string[] = [];
+    const ctx = { ui: { notify: (m: string) => notes.push(m) } };
+    await commands.get("route-threshold").handler("", ctx);
+    await commands.get("route-threshold").handler("1.5", ctx);
+    await commands.get("route-threshold").handler("0.7", ctx);
+    expect(notes[0]).toContain("usage");
+    expect(notes[1]).toContain("usage");
+    expect(notes[2]).toBe("route threshold = 0.7");
+  });
+
+  test("a failed move restores the prompt to the editor", async () => {
+    const { handlers, commands } = harness(async () => leave());
+    const { ctx, calls } = ctxWith({ choice: "New session" });
+    const text = "look into ~/github/other-project and review the recent sessions";
+    await handlers.get("input")!({ type: "input", text, source: "interactive" }, ctx);
+    const cmdCtx = { ...ctx, waitForIdle: async () => {}, newSession: async () => { throw new Error("disk full"); } };
+    await commands.get("route-go").handler("", cmdCtx);
+    expect(calls.setEditorText.at(-1)).toEqual([text]);
+    expect(calls.notify.at(-1)?.[0]).toContain("disk full");
+    // the prompt is still parked, so a retry can move it
+    const sent: any[] = [];
+    await commands.get("route-go").handler("", { ...cmdCtx, newSession: async (args: any) => { await args.withSession({ sendUserMessage: async (c: any) => sent.push(c) }); return { cancelled: false }; } });
+    expect(sent).toEqual([text]);
+  });
+
   test("a stale session is offered a new session without asking Jev", async () => {
     let asked = 0;
     const { handlers } = harness(async () => { asked += 1; return stay(); }, { now: () => Date.parse("2026-09-21T10:00:00Z") });
     const { ctx, calls } = ctxWith({ choice: undefined });
     await handlers.get("input")!({ type: "input", text: "continue where we left off with the cover please", source: "interactive" }, ctx);
     expect(asked).toBe(0);
-    expect(calls.select[0]?.[0]).toContain("an unrelated task (100%)");
+    expect(calls.select[0]?.[0]).toContain("idle for a while");
   });
 });

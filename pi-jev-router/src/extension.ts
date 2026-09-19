@@ -24,6 +24,12 @@ const LABELS: Record<Route, string> = {
   new_session: "an unrelated task",
 };
 
+function dialogTitle(decision: Decision): string {
+  if (decision.rule === "stale_session") return "This session has been idle for a while. Where should this prompt go?";
+  if (decision.rule === "context_full") return "This session's context is nearly full. Where should this prompt go?";
+  return `This looks like ${LABELS[decision.route]} (${Math.round(decision.confidence * 100)}%). Where should it go?`;
+}
+
 export function registerPiJevRouter(pi: ExtensionAPI, dependencies: ExtensionDependencies = {}): void {
   const resolved = dependencies.client ? { client: dependencies.client, via: dependencies.via ?? "custom" } : resolveClient();
   const config: RouterConfig = { ...DEFAULT_CONFIG, ...envConfig(), ...dependencies.config };
@@ -54,10 +60,7 @@ export function registerPiJevRouter(pi: ExtensionAPI, dependencies: ExtensionDep
     if (decision.route === "continue") return { action: "continue" };
 
     if (!ctx.hasUI) return { action: "continue" };
-    const choice = await ctx.ui.select(
-      `This looks like ${LABELS[decision.route]} (${Math.round(decision.confidence * 100)}%). Where should it go?`,
-      [LABELS.continue, "Fork from here", "New session", "Keep here and stop asking this session"],
-    );
+    const choice = await ctx.ui.select(dialogTitle(decision), [LABELS.continue, "Fork from here", "New session", "Keep here and stop asking this session"]);
     if (choice === "Keep here and stop asking this session") enabled = false;
     if (!choice || choice.startsWith("Keep")) return { action: "continue" };
 
@@ -96,8 +99,8 @@ export function registerPiJevRouter(pi: ExtensionAPI, dependencies: ExtensionDep
   pi.registerCommand("route-threshold", {
     description: "Set the confidence needed before the router suggests leaving the session (0–1)",
     handler: async (args, ctx) => {
-      const value = Number(args.trim());
-      if (!(value >= 0 && value <= 1)) return ctx.ui.notify("usage: /route-threshold 0.6", "error");
+      const value = parseUnitInterval(args);
+      if (value === undefined) return ctx.ui.notify(`usage: /route-threshold 0.6 (current: ${config.threshold})`, "error");
       config.threshold = value;
       ctx.ui.notify(`route threshold = ${value}`, "info");
     },
@@ -108,19 +111,29 @@ export function registerPiJevRouter(pi: ExtensionAPI, dependencies: ExtensionDep
     pending = undefined;
     if (!move) return ctx.ui.notify("Nothing to move. Type a prompt first; the router will offer to fork it.", "warning");
     const content = move.images?.length ? [{ type: "text" as const, text: move.text }, ...move.images] : move.text;
-    await ctx.waitForIdle();
-    if (move.action === "fork") {
-      const leaf = ctx.sessionManager.getLeafId();
-      if (!leaf) return ctx.ui.notify("Cannot fork an empty session", "error");
-      const result = await ctx.fork(leaf, { position: "at", withSession: async (next) => next.sendUserMessage(content) });
-      if (result.cancelled) ctx.ui.notify("Fork was cancelled", "warning");
-      return;
+    try {
+      await ctx.waitForIdle();
+      let result: { cancelled: boolean };
+      if (move.action === "fork") {
+        const leaf = ctx.sessionManager.getLeafId();
+        if (!leaf) throw new Error("cannot fork an empty session");
+        result = await ctx.fork(leaf, { position: "at", withSession: async (next) => next.sendUserMessage(content) });
+      } else {
+        result = await ctx.newSession({
+          parentSession: ctx.sessionManager.getSessionFile() ?? undefined,
+          withSession: async (next) => next.sendUserMessage(content),
+        });
+      }
+      if (result.cancelled) {
+        pending = move;
+        ctx.ui.notify(`${move.action === "fork" ? "Fork" : "New session"} was cancelled; your prompt is still parked, run /${GO_COMMAND} again or paste it back.`, "warning");
+      }
+    } catch (cause) {
+      // The editor was already emptied when the input was handled; keep the prompt so nothing is lost.
+      pending = move;
+      ctx.ui.setEditorText(move.text);
+      ctx.ui.notify(`Could not move the prompt (${cause instanceof Error ? cause.message : String(cause)}); it is back in the editor.`, "error");
     }
-    const result = await ctx.newSession({
-      parentSession: ctx.sessionManager.getSessionFile() ?? undefined,
-      withSession: async (next) => next.sendUserMessage(content),
-    });
-    if (result.cancelled) ctx.ui.notify("New session was cancelled", "warning");
   }
 }
 
@@ -140,13 +153,21 @@ function codeRules(entries: EntryLike[], ctx: ExtensionContext, config: RouterCo
 
 function envConfig(env: NodeJS.ProcessEnv = process.env): Partial<RouterConfig> {
   const out: Partial<RouterConfig> = {};
-  const threshold = Number(env.PI_JEV_ROUTER_THRESHOLD);
-  if (threshold >= 0 && threshold <= 1) out.threshold = threshold;
+  const threshold = parseUnitInterval(env.PI_JEV_ROUTER_THRESHOLD);
+  if (threshold !== undefined) out.threshold = threshold;
   const timeout = Number(env.PI_JEV_ROUTER_TIMEOUT_MS);
   if (timeout > 0) out.timeoutMs = timeout;
   const stale = Number(env.PI_JEV_ROUTER_STALE_MINUTES);
   if (stale > 0) out.staleAfterMinutes = stale;
   return out;
+}
+
+/** "0.6" → 0.6; empty, non-numeric or out-of-range input → undefined. */
+export function parseUnitInterval(raw: string | undefined): number | undefined {
+  const text = raw?.trim();
+  if (!text) return undefined;
+  const value = Number(text);
+  return Number.isFinite(value) && value >= 0 && value <= 1 ? value : undefined;
 }
 
 export function describe(decision: Decision): string {

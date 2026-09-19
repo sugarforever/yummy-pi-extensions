@@ -57,8 +57,11 @@ export function directClient(apiKey: string, fetchImpl: typeof fetch = fetch): J
 
 /** Vercel AI Gateway: only reachable through the AI SDK's experimental_evaluate. Loaded lazily. */
 export function gatewayClient(): JevClient {
-  // Import once, eagerly, so module loading never counts against the per-call timeout.
+  // Import once, eagerly, so module loading never counts against the per-call timeout. A failed
+  // import must surface on the first routed prompt (where it degrades to "continue"), not as an
+  // unhandled rejection at startup.
   const modules = Promise.all([import("ai"), import("@ai-sdk/gateway")]);
+  modules.catch(() => {});
   return async (state, signal) => {
     const [{ experimental_evaluate: evaluate }, { gateway }] = await modules;
     const started = performance.now();
