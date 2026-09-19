@@ -1,0 +1,59 @@
+name: Release pi-jev-router
+
+on:
+  push:
+    tags:
+      - "pi-jev-router-v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: release-pi-jev-router
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: pi-jev-router
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Upgrade npm for Trusted Publishing
+        run: npm install --global npm@latest
+
+      - name: Verify tag matches package version
+        shell: bash
+        run: |
+          package_version="$(node -p "require('./package.json').version")"
+          expected_tag="pi-jev-router-v${package_version}"
+
+          if [[ "${GITHUB_REF_NAME}" != "${expected_tag}" ]]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package version ${package_version}"
+            echo "Expected tag: ${expected_tag}"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test, typecheck, and build
+        run: npm run check
+
+      - name: Inspect package
+        run: npm pack --dry-run
+
+      - name: Publish to npm
+        run: npm publish
