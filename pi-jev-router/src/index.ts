@@ -6,6 +6,7 @@ export default function piJevRouter(pi: ExtensionAPI): void {
 }
 
 export { registerPiJevRouter } from "./extension.js";
+export { resolveClient, systemOneClient, gatewayClient, ENGINES, type Engine } from "./jev.js";
 export { prefilter } from "./prefilter.js";
 export { buildState } from "./state.js";
 export { applyPolicy } from "./policy.js";

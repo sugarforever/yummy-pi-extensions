@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionCommandContext, ExtensionContext, InputEvent } from "@earendil-works/pi-coding-agent";
-import { resolveClient, type JevClient } from "./jev.js";
+import { resolveClient, type Engine, type JevClient } from "./jev.js";
 import { prefilter } from "./prefilter.js";
 import { route as routeWithJev } from "./router.js";
 import { buildState, lastUserTimestamp, type EntryLike } from "./state.js";
@@ -7,7 +7,7 @@ import { DEFAULT_CONFIG, type Decision, type Route, type RouterConfig } from "./
 
 export type ExtensionDependencies = {
   client?: JevClient;
-  via?: string;
+  via?: Engine | string;
   config?: Partial<RouterConfig>;
   now?: () => number;
 };
@@ -79,7 +79,7 @@ export function registerPiJevRouter(pi: ExtensionAPI, dependencies: ExtensionDep
     description: "Show the last routing decision and the router configuration",
     handler: async (_args, ctx) => {
       const lines = [
-        `engine: ${resolved ? resolved.via : "none — set TYPESAFE_API_KEY or AI_GATEWAY_API_KEY"}`,
+        `engine: ${resolved ? resolved.via : "none — set TYPESAFE_API_KEY, OPENROUTER_API_KEY or AI_GATEWAY_API_KEY"}`,
         `enabled: ${enabled}  threshold: ${config.threshold}  timeout: ${config.timeoutMs} ms  stale: ${config.staleAfterMinutes} min  context limit: ${config.contextUsageLimit}`,
         last ? describe(last) : "no decision yet",
       ];

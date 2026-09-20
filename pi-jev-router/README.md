@@ -13,9 +13,12 @@ The failure it prevents: you are 300k tokens into a video-production or PR sessi
 
 - Node.js 22 or newer
 - Pi
-- One of:
-  - `TYPESAFE_API_KEY` — a TypeSafe key (direct API, fastest)
+- One of, checked in this order:
+  - `TYPESAFE_API_KEY` — a TypeSafe key (direct API)
+  - `OPENROUTER_API_KEY` — an [OpenRouter](https://openrouter.ai/typesafe/jev-1.13) key (model `typesafe/jev-1.13`, same wire format, pay-as-you-go, no free-tier throttle)
   - `AI_GATEWAY_API_KEY` — a Vercel AI Gateway key (model `typesafe-ai/jev`; the free tier throttles after a handful of calls)
+
+  `PI_JEV_ROUTER_ENGINE=typesafe|openrouter|gateway` forces one when several keys are set.
 
 ## Installation
 
@@ -32,11 +35,11 @@ Or per project, in `.pi/settings.json`:
 Export a key in the shell you start Pi from:
 
 ```bash
-export TYPESAFE_API_KEY=...        # or AI_GATEWAY_API_KEY=...
+export OPENROUTER_API_KEY=...      # or TYPESAFE_API_KEY=... / AI_GATEWAY_API_KEY=...
 pi
 ```
 
-The status line shows `route: ready (typesafe)` or `route: ready (gateway)`. With no key it shows `route: no key` and the extension does nothing.
+The status line shows `route: ready (typesafe)`, `route: ready (openrouter)` or `route: ready (gateway)`. With no key it shows `route: no key` and the extension does nothing.
 
 ## What happens when you type
 
@@ -72,7 +75,12 @@ The status line shows the last decision, e.g. `route: continue 95% 480ms`.
 | env | default | meaning |
 |---|---|---|
 | `TYPESAFE_API_KEY` | — | direct TypeSafe API |
+| `OPENROUTER_API_KEY` | — | OpenRouter (`POST /api/v1/systemone`) |
 | `AI_GATEWAY_API_KEY` | — | Vercel AI Gateway fallback |
+| `PI_JEV_ROUTER_ENGINE` | first key found | force `typesafe`, `openrouter` or `gateway` |
+| `OPENROUTER_MODEL` | `typesafe/jev-1.13` | OpenRouter model id (`~typesafe/jev-latest` also works) |
+| `OPENROUTER_BASE_URL` | `https://openrouter.ai/api/v1/systemone` | OpenRouter endpoint override |
+| `TYPESAFE_MODEL` | `jev-latest` | TypeSafe model id |
 | `PI_JEV_ROUTER_THRESHOLD` | `0.6` | minimum confidence to suggest leaving |
 | `PI_JEV_ROUTER_TIMEOUT_MS` | `2500` | Jev budget per prompt; on timeout the prompt continues |
 | `PI_JEV_ROUTER_STALE_MINUTES` | `720` | silence after which a prompt is offered a new session without asking Jev |
