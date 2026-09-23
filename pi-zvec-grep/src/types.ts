@@ -15,6 +15,8 @@ export type RuntimeStatus = {
   root: string;
   phase: RuntimePhase;
   error?: string;
+  errorCode?: string;
+  consecutiveFailures: number;
   lastIndexedAt?: string;
   pendingFiles: number;
   watcher: "disabled" | "starting" | "active" | "recovering" | "stopped";
