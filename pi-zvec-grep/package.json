@@ -1,6 +1,6 @@
 {
   "name": "@sugarforever/pi-zvec-grep",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Zero-command, continuously fresh zvec workspace search for Pi",
   "repository": {
     "type": "git",
