@@ -1,6 +1,6 @@
 {
   "name": "@sugarforever/pi-jev-router",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Per-turn session router for Pi: Jev decides whether a prompt should continue, fork, or start a new session before it pollutes the context",
   "repository": {
     "type": "git",

@@ -39,6 +39,8 @@ export function registerPiJevRouter(pi: ExtensionAPI, dependencies: ExtensionDep
   let last: Decision | undefined;
 
   pi.on("session_start", async (_event, ctx) => {
+    // "Stop asking this session" and /route-toggle are per session: a new, forked or resumed session starts enabled.
+    enabled = true;
     pending = undefined;
     last = undefined;
     if (ctx.hasUI) ctx.ui.setStatus(STATUS_KEY, resolved ? `route: ready (${resolved.via})` : "route: no key");

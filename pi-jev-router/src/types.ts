@@ -20,7 +20,7 @@ export type JevAnswers = {
 
 export type Decision = {
   route: Route;
-  /** Probability Jev assigned to the final route (after post-rules). */
+  /** new_session: P(side_chat) + P(new_session); continue: P(continue). */
   confidence: number;
   /** Which post-rule produced the final route, if any. */
   rule?: string;
@@ -30,7 +30,7 @@ export type Decision = {
 };
 
 export type RouterConfig = {
-  /** Minimum route probability before the extension suggests leaving the session. */
+  /** Minimum "unrelated" probability (side_chat + new_session) before the extension interrupts. */
   threshold: number;
   /** Jev call budget; on timeout the input continues untouched. */
   timeoutMs: number;

@@ -76,7 +76,7 @@ describe("registerPiJevRouter", () => {
     const { ctx, calls } = ctxWith({ choice: "New session" });
     const result = await handlers.get("input")!({ type: "input", text: "look into ~/github/other-project and review the recent sessions", source: "interactive" }, ctx);
     expect(result).toEqual({ action: "handled" });
-    expect(calls.select[0]?.[0]).toContain("an unrelated task (73%)");
+    expect(calls.select[0]?.[0]).toContain("an unrelated task (79%)");
     expect(calls.setEditorText).toEqual([["/route-go"]]);
 
     const sent: any[] = [];
@@ -116,6 +116,17 @@ describe("registerPiJevRouter", () => {
     expect(await handlers.get("input")!(event, ctx)).toEqual({ action: "continue" });
     expect(await handlers.get("input")!(event, ctx)).toEqual({ action: "continue" });
     expect(asked).toBe(1);
+  });
+
+  test("the opt-out lasts for one session only", async () => {
+    let asked = 0;
+    const { handlers } = harness(async () => { asked += 1; return leave(); });
+    const { ctx } = ctxWith({ choice: "Keep here and stop asking this session" });
+    const event = { type: "input", text: "look into ~/github/other-project and review the recent sessions", source: "interactive" };
+    await handlers.get("input")!(event, ctx);
+    await handlers.get("session_start")!({ type: "session_start" }, ctx);
+    await handlers.get("input")!(event, ctx);
+    expect(asked).toBe(2);
   });
 
   test("a Jev failure or timeout never blocks the prompt", async () => {
