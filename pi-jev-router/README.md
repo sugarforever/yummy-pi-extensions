@@ -101,14 +101,14 @@ Jev error / timeout              → continue
 
 Jev's `route` choice splits "unrelated" across two options (`side_chat` for a quick question, `new_session` for a new task). Gating on either one alone let genuinely unrelated prompts through on a split vote, e.g. 0.45 / 0.47 for another project's Redis error log, so the two are summed. `fork` is not a reason to interrupt: a variant or follow-up of the current work is still the session's topic. Fork stays available in the dialog as Pi's own session operation.
 
-Evaluated on 2026-09-26 against Jev 1.13 on OpenRouter, two runs each, over 30 development scenarios and 22 held-out scenarios labelled before the policy change:
+Evaluated on 2026-09-26 against Jev 1.13 on OpenRouter, two runs each, over 30 development scenarios, 22 held-out scenarios labelled before the policy change, and 3 regression phrasings:
 
-| | 0.2.0 | this policy |
+| | 0.2.0 | 0.3.0 |
 |---|---|---|
-| unrelated prompts flagged | 11–12/14 | 14/14 |
-| other prompts interrupted (incl. same-topic variants) | 1/38 | 0/38 |
+| unrelated prompts flagged | 10–12/14 | 14/14 |
+| other prompts interrupted (incl. same-topic variants) | 1/41 | 0/41 |
 
-The scenarios are hand-written, so treat this as a regression suite rather than a benchmark.
+The scenarios are hand-written, so treat this as a regression suite rather than a benchmark. Scenarios, runner and raw results live in [`eval/`](eval/README.md); rerun with `node eval/run.mjs`.
 
 ## Development
 

@@ -1,0 +1,1437 @@
+{
+  "label": "0.3.0",
+  "engine": "openrouter",
+  "generatedAt": "2026-09-26T22:35:56.680Z",
+  "rows": [
+    {
+      "set": "dev",
+      "id": "zh-followup",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 404,
+      "inputTokens": 814,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.89,
+        "oneOff": 0.44,
+        "inputTokens": 814,
+        "latencyMs": 404
+      }
+    },
+    {
+      "set": "dev",
+      "id": "en-followup",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 253,
+      "inputTokens": 782,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.89,
+        "oneOff": 0.6,
+        "inputTokens": 782,
+        "latencyMs": 253
+      }
+    },
+    {
+      "set": "dev",
+      "id": "mixed-followup",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 267,
+      "inputTokens": 796,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.9,
+        "oneOff": 0.5,
+        "inputTokens": 796,
+        "latencyMs": 267
+      }
+    },
+    {
+      "set": "dev",
+      "id": "correction",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 246,
+      "inputTokens": 806,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.89,
+        "oneOff": 0.58,
+        "inputTokens": 806,
+        "latencyMs": 246
+      }
+    },
+    {
+      "set": "dev",
+      "id": "constraint",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 278,
+      "inputTokens": 790,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.9,
+        "oneOff": 0.3,
+        "inputTokens": 790,
+        "latencyMs": 278
+      }
+    },
+    {
+      "set": "dev",
+      "id": "adjacent-test",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 288,
+      "inputTokens": 779,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.93,
+        "needsHistory": 0.86,
+        "oneOff": 0.27,
+        "inputTokens": 779,
+        "latencyMs": 288
+      }
+    },
+    {
+      "set": "dev",
+      "id": "adjacent-docs",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 263,
+      "inputTokens": 770,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.9,
+        "oneOff": 0.63,
+        "inputTokens": 770,
+        "latencyMs": 263
+      }
+    },
+    {
+      "set": "dev",
+      "id": "adjacent-deploy",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 228,
+      "inputTokens": 774,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.89,
+        "oneOff": 0.44,
+        "inputTokens": 774,
+        "latencyMs": 228
+      }
+    },
+    {
+      "set": "dev",
+      "id": "explicit-switch",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 0.97,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 277,
+      "inputTokens": 795,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.06,
+          "fork": 0.03,
+          "new_session": 0.91
+        },
+        "onTopic": 0.02,
+        "needsHistory": 0.34,
+        "oneOff": 0.18,
+        "inputTokens": 795,
+        "latencyMs": 277
+      }
+    },
+    {
+      "set": "dev",
+      "id": "obvious-pivot-zh",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 341,
+      "inputTokens": 783,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.08,
+          "fork": 0,
+          "new_session": 0.92
+        },
+        "onTopic": 0.02,
+        "needsHistory": 0.09,
+        "oneOff": 0.24,
+        "inputTokens": 783,
+        "latencyMs": 341
+      }
+    },
+    {
+      "set": "dev",
+      "id": "obvious-pivot-en",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 333,
+      "inputTokens": 769,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.04,
+          "fork": 0,
+          "new_session": 0.96
+        },
+        "onTopic": 0.02,
+        "needsHistory": 0.09,
+        "oneOff": 0.46,
+        "inputTokens": 769,
+        "latencyMs": 333
+      }
+    },
+    {
+      "set": "dev",
+      "id": "one-off-definition",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 367,
+      "inputTokens": 779,
+      "raw": {
+        "route": "side_chat",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 1,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.04,
+        "needsHistory": 0.15,
+        "oneOff": 0.68,
+        "inputTokens": 779,
+        "latencyMs": 367
+      }
+    },
+    {
+      "set": "dev",
+      "id": "one-off-command",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 247,
+      "inputTokens": 774,
+      "raw": {
+        "route": "side_chat",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 1,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.05,
+        "needsHistory": 0.15,
+        "oneOff": 0.83,
+        "inputTokens": 774,
+        "latencyMs": 247
+      }
+    },
+    {
+      "set": "dev",
+      "id": "fork-alternative",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 279,
+      "inputTokens": 821,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0,
+          "fork": 1,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.91,
+        "oneOff": 0.43,
+        "inputTokens": 821,
+        "latencyMs": 279
+      }
+    },
+    {
+      "set": "dev",
+      "id": "fork-whatif",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.5,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 256,
+      "inputTokens": 825,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.5,
+          "side_chat": 0,
+          "fork": 0.5,
+          "new_session": 0
+        },
+        "onTopic": 0.64,
+        "needsHistory": 0.55,
+        "oneOff": 0.4,
+        "inputTokens": 825,
+        "latencyMs": 256
+      }
+    },
+    {
+      "set": "dev",
+      "id": "short-ambiguous-1",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 384,
+      "inputTokens": 778,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.92,
+        "oneOff": 0.19,
+        "inputTokens": 778,
+        "latencyMs": 384
+      }
+    },
+    {
+      "set": "dev",
+      "id": "short-ambiguous-2",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 409,
+      "inputTokens": 754,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.88,
+        "oneOff": 0.43,
+        "inputTokens": 754,
+        "latencyMs": 409
+      }
+    },
+    {
+      "set": "dev",
+      "id": "vague",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 279,
+      "inputTokens": 780,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.9,
+        "oneOff": 0.24,
+        "inputTokens": 780,
+        "latencyMs": 279
+      }
+    },
+    {
+      "set": "dev",
+      "id": "paste-code-related",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 246,
+      "inputTokens": 797,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.86,
+        "oneOff": 0.71,
+        "inputTokens": 797,
+        "latencyMs": 246
+      }
+    },
+    {
+      "set": "dev",
+      "id": "paste-log-related",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 330,
+      "inputTokens": 801,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.83,
+        "oneOff": 0.43,
+        "inputTokens": 801,
+        "latencyMs": 330
+      }
+    },
+    {
+      "set": "dev",
+      "id": "paste-log-unrelated",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 0.94,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 230,
+      "inputTokens": 814,
+      "raw": {
+        "route": "side_chat",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.52,
+          "fork": 0.06,
+          "new_session": 0.42
+        },
+        "onTopic": 0.08,
+        "needsHistory": 0.58,
+        "oneOff": 0.25,
+        "inputTokens": 814,
+        "latencyMs": 230
+      }
+    },
+    {
+      "set": "dev",
+      "id": "false-positive-word-overlap",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 0.99,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 272,
+      "inputTokens": 800,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.36,
+          "fork": 0.01,
+          "new_session": 0.63
+        },
+        "onTopic": 0.03,
+        "needsHistory": 0.24,
+        "oneOff": 0.16,
+        "inputTokens": 800,
+        "latencyMs": 272
+      }
+    },
+    {
+      "set": "dev",
+      "id": "false-positive-tool-overlap",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 351,
+      "inputTokens": 793,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.04,
+          "fork": 0,
+          "new_session": 0.96
+        },
+        "onTopic": 0.04,
+        "needsHistory": 0.28,
+        "oneOff": 0.51,
+        "inputTokens": 793,
+        "latencyMs": 351
+      }
+    },
+    {
+      "set": "dev",
+      "id": "false-negative-topic-shift",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.99,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 215,
+      "inputTokens": 782,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 0.99,
+          "side_chat": 0,
+          "fork": 0.01,
+          "new_session": 0
+        },
+        "onTopic": 0.92,
+        "needsHistory": 0.87,
+        "oneOff": 0.37,
+        "inputTokens": 782,
+        "latencyMs": 215
+      }
+    },
+    {
+      "set": "dev",
+      "id": "pronoun",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 262,
+      "inputTokens": 794,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.88,
+        "oneOff": 0.29,
+        "inputTokens": 794,
+        "latencyMs": 262
+      }
+    },
+    {
+      "set": "dev",
+      "id": "related-research",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 291,
+      "inputTokens": 809,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.97,
+        "needsHistory": 0.88,
+        "oneOff": 0.27,
+        "inputTokens": 809,
+        "latencyMs": 291
+      }
+    },
+    {
+      "set": "dev",
+      "id": "meta-session",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 224,
+      "inputTokens": 792,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.9,
+        "oneOff": 0.71,
+        "inputTokens": 792,
+        "latencyMs": 224
+      }
+    },
+    {
+      "set": "dev",
+      "id": "new-related-project",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 243,
+      "inputTokens": 787,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 1
+        },
+        "onTopic": 0.19,
+        "needsHistory": 0.79,
+        "oneOff": 0.13,
+        "inputTokens": 787,
+        "latencyMs": 243
+      }
+    },
+    {
+      "set": "dev",
+      "id": "fork-debug-alt",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.4,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 224,
+      "inputTokens": 807,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.4,
+          "side_chat": 0,
+          "fork": 0.6,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.89,
+        "oneOff": 0.19,
+        "inputTokens": 807,
+        "latencyMs": 224
+      }
+    },
+    {
+      "set": "dev",
+      "id": "mixed-pivot",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 0.93,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 341,
+      "inputTokens": 775,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.02,
+          "fork": 0.07,
+          "new_session": 0.91
+        },
+        "onTopic": 0.06,
+        "needsHistory": 0.72,
+        "oneOff": 0.15,
+        "inputTokens": 775,
+        "latencyMs": 341
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-thread",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.46,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 234,
+      "inputTokens": 815,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.46,
+          "side_chat": 0.01,
+          "fork": 0.53,
+          "new_session": 0
+        },
+        "onTopic": 0.88,
+        "needsHistory": 0.83,
+        "oneOff": 0.36,
+        "inputTokens": 815,
+        "latencyMs": 234
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-graphql",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.36,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 273,
+      "inputTokens": 791,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.36,
+          "side_chat": 0,
+          "fork": 0.64,
+          "new_session": 0
+        },
+        "onTopic": 0.92,
+        "needsHistory": 0.89,
+        "oneOff": 0.54,
+        "inputTokens": 791,
+        "latencyMs": 273
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-streams",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.4,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 414,
+      "inputTokens": 819,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.4,
+          "side_chat": 0,
+          "fork": 0.6,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.91,
+        "oneOff": 0.25,
+        "inputTokens": 819,
+        "latencyMs": 414
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-abtest",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.49,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 299,
+      "inputTokens": 790,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.49,
+          "side_chat": 0,
+          "fork": 0.51,
+          "new_session": 0
+        },
+        "onTopic": 0.85,
+        "needsHistory": 0.72,
+        "oneOff": 0.51,
+        "inputTokens": 790,
+        "latencyMs": 299
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-polars",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.33,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 238,
+      "inputTokens": 820,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.33,
+          "side_chat": 0,
+          "fork": 0.67,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.9,
+        "oneOff": 0.47,
+        "inputTokens": 820,
+        "latencyMs": 238
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-bluegreen",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 305,
+      "inputTokens": 800,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0,
+          "fork": 1,
+          "new_session": 0
+        },
+        "onTopic": 0.92,
+        "needsHistory": 0.89,
+        "oneOff": 0.34,
+        "inputTokens": 800,
+        "latencyMs": 305
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-lightning",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.88,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 230,
+      "inputTokens": 839,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 0.88,
+          "side_chat": 0,
+          "fork": 0.12,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.87,
+        "oneOff": 0.48,
+        "inputTokens": 839,
+        "latencyMs": 230
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-fork-ending",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.14,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 274,
+      "inputTokens": 812,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.14,
+          "side_chat": 0,
+          "fork": 0.86,
+          "new_session": 0
+        },
+        "onTopic": 0.43,
+        "needsHistory": 0.27,
+        "oneOff": 0.17,
+        "inputTokens": 812,
+        "latencyMs": 274
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-replace",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.88,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 267,
+      "inputTokens": 802,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 0.88,
+          "side_chat": 0,
+          "fork": 0.12,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.87,
+        "oneOff": 0.2,
+        "inputTokens": 802,
+        "latencyMs": 267
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-switch",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.9,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 326,
+      "inputTokens": 776,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 0.9,
+          "side_chat": 0,
+          "fork": 0.1,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.86,
+        "oneOff": 0.26,
+        "inputTokens": 776,
+        "latencyMs": 326
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-rewrite",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 294,
+      "inputTokens": 789,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.94,
+        "needsHistory": 0.83,
+        "oneOff": 0.47,
+        "inputTokens": 789,
+        "latencyMs": 294
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-shorten",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 242,
+      "inputTokens": 774,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.91,
+        "needsHistory": 0.79,
+        "oneOff": 0.4,
+        "inputTokens": 774,
+        "latencyMs": 242
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-param",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 497,
+      "inputTokens": 780,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.97,
+        "needsHistory": 0.88,
+        "oneOff": 0.45,
+        "inputTokens": 780,
+        "latencyMs": 497
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-approach",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 305,
+      "inputTokens": 782,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.89,
+        "oneOff": 0.26,
+        "inputTokens": 782,
+        "latencyMs": 305
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-risk",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 277,
+      "inputTokens": 786,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.89,
+        "oneOff": 0.56,
+        "inputTokens": 786,
+        "latencyMs": 277
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-metrics",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 238,
+      "inputTokens": 777,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.88,
+        "oneOff": 0.29,
+        "inputTokens": 777,
+        "latencyMs": 238
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-windows",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 251,
+      "inputTokens": 789,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.96,
+        "needsHistory": 0.9,
+        "oneOff": 0.33,
+        "inputTokens": 789,
+        "latencyMs": 251
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-cont-ship",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 294,
+      "inputTokens": 772,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 1,
+          "side_chat": 0,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.95,
+        "needsHistory": 0.84,
+        "oneOff": 0.37,
+        "inputTokens": 772,
+        "latencyMs": 294
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-new-email",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 220,
+      "inputTokens": 793,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.43,
+          "fork": 0,
+          "new_session": 0.57
+        },
+        "onTopic": 0.02,
+        "needsHistory": 0.15,
+        "oneOff": 0.48,
+        "inputTokens": 793,
+        "latencyMs": 220
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-new-nas",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 225,
+      "inputTokens": 787,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.04,
+          "fork": 0,
+          "new_session": 0.96
+        },
+        "onTopic": 0.02,
+        "needsHistory": 0.14,
+        "oneOff": 0.25,
+        "inputTokens": 787,
+        "latencyMs": 225
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-new-other-repo",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 0.95,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 255,
+      "inputTokens": 798,
+      "raw": {
+        "route": "new_session",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 0.29,
+          "fork": 0.05,
+          "new_session": 0.66
+        },
+        "onTopic": 0.1,
+        "needsHistory": 0.31,
+        "oneOff": 0.46,
+        "inputTokens": 798,
+        "latencyMs": 255
+      }
+    },
+    {
+      "set": "heldout",
+      "id": "h-new-trivia",
+      "expected": "new_session",
+      "route": "new_session",
+      "flagged": true,
+      "confidence": 1,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 289,
+      "inputTokens": 763,
+      "raw": {
+        "route": "side_chat",
+        "routeProbabilities": {
+          "continue": 0,
+          "side_chat": 1,
+          "fork": 0,
+          "new_session": 0
+        },
+        "onTopic": 0.03,
+        "needsHistory": 0.15,
+        "oneOff": 0.69,
+        "inputTokens": 763,
+        "latencyMs": 289
+      }
+    },
+    {
+      "set": "regress",
+      "id": "r-next-episode",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.42,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 244,
+      "inputTokens": 809,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 0.42,
+          "side_chat": 0,
+          "fork": 0.37,
+          "new_session": 0.21
+        },
+        "onTopic": 0.65,
+        "needsHistory": 0.67,
+        "oneOff": 0.21,
+        "inputTokens": 809,
+        "latencyMs": 244
+      }
+    },
+    {
+      "set": "regress",
+      "id": "r-next-pr",
+      "expected": "fork",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.52,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 238,
+      "inputTokens": 782,
+      "raw": {
+        "route": "continue",
+        "routeProbabilities": {
+          "continue": 0.52,
+          "side_chat": 0,
+          "fork": 0.47,
+          "new_session": 0.01
+        },
+        "onTopic": 0.88,
+        "needsHistory": 0.84,
+        "oneOff": 0.33,
+        "inputTokens": 782,
+        "latencyMs": 238
+      }
+    },
+    {
+      "set": "regress",
+      "id": "r-yes-separate",
+      "expected": "continue",
+      "route": "continue",
+      "flagged": false,
+      "confidence": 0.25,
+      "rule": "",
+      "skipped": "",
+      "latencyMs": 249,
+      "inputTokens": 772,
+      "raw": {
+        "route": "fork",
+        "routeProbabilities": {
+          "continue": 0.25,
+          "side_chat": 0,
+          "fork": 0.6,
+          "new_session": 0.15
+        },
+        "onTopic": 0.91,
+        "needsHistory": 0.74,
+        "oneOff": 0.36,
+        "inputTokens": 772,
+        "latencyMs": 249
+      }
+    }
+  ]
+}
