@@ -1,6 +1,6 @@
 # pi-jev-router
 
-`pi-jev-router` is a [Pi](https://pi.dev/) extension that watches every prompt you type and, **before it enters the session**, asks [Jev](https://typesafe.ai) (TypeSafe's System One model) one question: does this belong here, or is it a tangent that should be forked, or an unrelated task that deserves a fresh session?
+`pi-jev-router` is a [Pi](https://pi.dev/) extension that watches every prompt you type and, **before it enters the session**, asks [Jev](https://typesafe.ai) (TypeSafe's System One model) one question: does this belong here, or is it unrelated work that would pollute the session's context? Only unrelated prompts trigger a reminder; you decide where they go.
 
 The failure it prevents: you are 300k tokens into a video-production or PR session, you fire an unrelated question by habit, the model answers it, and from then on every turn carries that noise. The router catches the prompt, offers to move it, and gets out of the way.
 
@@ -46,8 +46,8 @@ The status line shows `route: ready (typesafe)`, `route: ready (openrouter)` or 
 1. The prompt goes through the prefilter. Steers, paths, images, commands: straight through.
 2. A stale session (default: last prompt more than 12 h ago) or a nearly full context (default: ≥ 85%) is offered a new session outright, no API call.
 3. Otherwise Jev sees a compact state — session name (or first prompt), your last three prompts, the tail of the last reply, and the new prompt — and answers four typed questions (`route`, `on_topic`, `needs_history`, `one_off`).
-4. The policy turns the probabilities into one of `continue` / `fork` / `new_session` / `side_chat`. Anything under the confidence threshold (default 0.6) is a `continue`.
-5. If the answer is not `continue`, a dialog asks:
+4. The policy asks one thing of those answers: is this prompt unrelated to the session? Only then does it interrupt. Same-topic prompts, including variants and follow-ups, go straight through.
+5. If the prompt looks unrelated, a dialog asks where it should go. The router only flags; the choice is yours:
 
    ```
    This looks like an unrelated task (73%). Where should it go?
@@ -67,8 +67,8 @@ The status line shows the last decision, e.g. `route: continue 95% 480ms`.
 |---|---|
 | `/route-go` | move the last routed prompt (set up by the dialog) |
 | `/route-status` | engine, thresholds and the full last decision with Jev's raw probabilities |
-| `/route-toggle` | enable / disable for this session |
-| `/route-threshold 0.7` | confidence needed before the router suggests leaving |
+| `/route-toggle` | enable / disable for this session (a new, forked or resumed session starts enabled) |
+| `/route-threshold 0.7` | how sure Jev must be that a prompt is unrelated before the router interrupts |
 
 ## Configuration
 
@@ -81,7 +81,7 @@ The status line shows the last decision, e.g. `route: continue 95% 480ms`.
 | `OPENROUTER_MODEL` | `typesafe/jev-1.13` | OpenRouter model id (`~typesafe/jev-latest` also works) |
 | `OPENROUTER_BASE_URL` | `https://openrouter.ai/api/v1/systemone` | OpenRouter endpoint override |
 | `TYPESAFE_MODEL` | `jev-latest` | TypeSafe model id |
-| `PI_JEV_ROUTER_THRESHOLD` | `0.6` | minimum confidence to suggest leaving |
+| `PI_JEV_ROUTER_THRESHOLD` | `0.6` | minimum P(side_chat) + P(new_session) before interrupting |
 | `PI_JEV_ROUTER_TIMEOUT_MS` | `2500` | Jev budget per prompt; on timeout the prompt continues |
 | `PI_JEV_ROUTER_STALE_MINUTES` | `720` | silence after which a prompt is offered a new session without asking Jev |
 | `PI_JEV_ROUTER_MODEL` | `typesafe-ai/jev` | gateway model id |
@@ -89,17 +89,26 @@ The status line shows the last decision, e.g. `route: continue 95% 480ms`.
 
 ## Policy
 
+The router has one job: keep unrelated work out of the session. It judges and offers a choice; it never moves a prompt on its own.
+
 ```
-on_topic ≥ 0.6                                   → continue
-(side_chat | new_session) and needs_history ≥ 0.7 → fork
-new_session and one_off ≥ 0.7                    → side_chat
-route ≠ continue and confidence < threshold      → continue
-Jev error / timeout                              → continue
+unrelated = P(side_chat) + P(new_session)
+unrelated < threshold            → continue
+on_topic ≥ 0.6                   → continue
+otherwise                        → dialog (Keep here / Fork from here / New session / stop asking)
+Jev error / timeout              → continue
 ```
 
-These came from a hand-labeled set of 13 real pivot prompts taken from the author's own Claude Code transcripts (12/13 acceptable, zero false "move this out" suggestions, three of four genuine pivots caught). The `needs_history` question did more work than the `route` choice: in both history-needing pivots Jev's top choice was `new_session` while `needs_history` was 0.75–0.89, and the fork rule is what produced the right answer. Treat the choice as a prior.
+Jev's `route` choice splits "unrelated" across two options (`side_chat` for a quick question, `new_session` for a new task). Gating on either one alone let genuinely unrelated prompts through on a split vote, e.g. 0.45 / 0.47 for another project's Redis error log, so the two are summed. `fork` is not a reason to interrupt: a variant or follow-up of the current work is still the session's topic. Fork stays available in the dialog as Pi's own session operation.
 
-`side_chat` is currently surfaced with the same dialog as `new_session`; a true one-off side answer that never touches the session is planned.
+Evaluated on 2026-09-26 against Jev 1.13 on OpenRouter, two runs each, over 30 development scenarios and 22 held-out scenarios labelled before the policy change:
+
+| | 0.2.0 | this policy |
+|---|---|---|
+| unrelated prompts flagged | 11–12/14 | 14/14 |
+| other prompts interrupted (incl. same-topic variants) | 1/38 | 0/38 |
+
+The scenarios are hand-written, so treat this as a regression suite rather than a benchmark.
 
 ## Development
 
