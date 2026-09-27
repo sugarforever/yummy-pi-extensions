@@ -1,0 +1,36 @@
+[
+  {
+    "id": "r-next-episode",
+    "expected": "fork",
+    "title": "制作 Jev 评测视频",
+    "recent": [
+      "完成 Jev 评测视频的剪辑",
+      "封面和 YouTube 文案都定稿了",
+      "/compact"
+    ],
+    "assistant": "本期视频的全部物料已经归档。",
+    "input": "基于上一期视频的素材和结论，接下来规划一期新视频"
+  },
+  {
+    "id": "r-next-pr",
+    "expected": "fork",
+    "title": "Ship the retry helper PR",
+    "recent": [
+      "Implement the retry helper",
+      "Tests pass, PR is open"
+    ],
+    "assistant": "PR #42 is ready for review.",
+    "input": "Using what we learned in this PR, plan the follow-up refactor of the HTTP client as its own piece of work."
+  },
+  {
+    "id": "r-yes-separate",
+    "expected": "continue",
+    "title": "Review the migration plan",
+    "recent": [
+      "Review the migration plan",
+      "Should the backfill be its own task?"
+    ],
+    "assistant": "The backfill could be split out into a separate session.",
+    "input": "Yes. Create a separate session to work on it"
+  }
+]

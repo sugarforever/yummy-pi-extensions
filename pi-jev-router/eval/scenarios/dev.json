@@ -1,0 +1,341 @@
+[
+  {
+    "id": "zh-followup",
+    "expected": "continue",
+    "title": "修复支付回调重复入账",
+    "recent": [
+      "检查 webhook 为什么重复入账",
+      "已经定位到幂等键没有落库",
+      "给 payment_events 加唯一索引"
+    ],
+    "assistant": "迁移和 upsert 已完成，下一步补并发测试。",
+    "input": "再补一个两个请求同时到达的测试"
+  },
+  {
+    "id": "en-followup",
+    "expected": "continue",
+    "title": "Fix CSV import",
+    "recent": [
+      "Fix quoted newline parsing in the CSV importer",
+      "Use the existing streaming parser",
+      "The parser now preserves embedded newlines"
+    ],
+    "assistant": "The implementation passes the focused parser tests.",
+    "input": "Can you add a regression test for a quoted field containing two newlines?"
+  },
+  {
+    "id": "mixed-followup",
+    "expected": "continue",
+    "title": "优化登录页",
+    "recent": [
+      "优化登录页的 mobile layout",
+      "按钮在 375px 下太宽",
+      "已经改成 width: 100%"
+    ],
+    "assistant": "The layout now matches the mobile mockup.",
+    "input": "顺便 check 一下 768px breakpoint 的 spacing"
+  },
+  {
+    "id": "correction",
+    "expected": "continue",
+    "title": "给订单 API 加缓存",
+    "recent": [
+      "给订单 API 加 Redis 缓存",
+      "TTL 设成 10 分钟"
+    ],
+    "assistant": "我会按 10 分钟 TTL 实现。",
+    "input": "不是 10 分钟，我刚才说错了，应该是 60 秒"
+  },
+  {
+    "id": "constraint",
+    "expected": "continue",
+    "title": "重构图片上传",
+    "recent": [
+      "重构图片上传逻辑",
+      "先用 Sharp 处理缩略图"
+    ],
+    "assistant": "我准备把处理放到请求线程。",
+    "input": "补充约束：不能阻塞请求线程，必须进现有队列"
+  },
+  {
+    "id": "adjacent-test",
+    "expected": "continue",
+    "title": "实现 OAuth callback",
+    "recent": [
+      "实现 GitHub OAuth callback",
+      "token exchange 已经完成",
+      "把用户写进数据库"
+    ],
+    "assistant": "OAuth callback implementation is complete.",
+    "input": "Run the integration tests and fix any failures caused by this change."
+  },
+  {
+    "id": "adjacent-docs",
+    "expected": "continue",
+    "title": "新增 config loader",
+    "recent": [
+      "新增 TOML config loader",
+      "环境变量应覆盖文件值"
+    ],
+    "assistant": "The loader and precedence tests pass.",
+    "input": "Update the README with the new config precedence and one example."
+  },
+  {
+    "id": "adjacent-deploy",
+    "expected": "continue",
+    "title": "Containerize API",
+    "recent": [
+      "给 API 写 Dockerfile",
+      "镜像已经能在本地启动"
+    ],
+    "assistant": "The health check returns 200.",
+    "input": "Now add the deployment manifest for this same API."
+  },
+  {
+    "id": "explicit-switch",
+    "expected": "new_session",
+    "title": "修复搜索排序",
+    "recent": [
+      "修复搜索结果排序",
+      "相关性分数相同时按时间倒序"
+    ],
+    "assistant": "排序测试已经通过。",
+    "input": "这个先停一下，我们切换话题：帮我规划下个月的日本旅行"
+  },
+  {
+    "id": "obvious-pivot-zh",
+    "expected": "new_session",
+    "title": "排查 Kubernetes OOM",
+    "recent": [
+      "排查 checkout pod OOM",
+      "heap dump 指向图片处理"
+    ],
+    "assistant": "建议把图片处理移到 worker。",
+    "input": "帮我比较一下三款适合客厅的扫地机器人"
+  },
+  {
+    "id": "obvious-pivot-en",
+    "expected": "new_session",
+    "title": "Debug React hydration",
+    "recent": [
+      "Debug the hydration mismatch on product pages",
+      "The timestamp component differs server vs client"
+    ],
+    "assistant": "We can render the timestamp client-only.",
+    "input": "Draft a five-day vegetarian meal plan for two people."
+  },
+  {
+    "id": "one-off-definition",
+    "expected": "new_session",
+    "title": "优化 PostgreSQL 查询",
+    "recent": [
+      "优化订单列表查询",
+      "已加复合索引"
+    ],
+    "assistant": "Execution time dropped to 20ms.",
+    "input": "By the way, what does the French phrase “mise en place” mean?"
+  },
+  {
+    "id": "one-off-command",
+    "expected": "new_session",
+    "title": "实现通知系统",
+    "recent": [
+      "实现邮件通知系统",
+      "模板渲染已完成"
+    ],
+    "assistant": "下一步接队列。",
+    "input": "Quick unrelated question: what command shows my current git branch?"
+  },
+  {
+    "id": "fork-alternative",
+    "expected": "fork",
+    "title": "设计 PostgreSQL 多租户方案",
+    "recent": [
+      "设计 PostgreSQL 多租户方案",
+      "决定使用 shared schema + tenant_id",
+      "RLS policy 已经写好"
+    ],
+    "assistant": "当前方案用 session variable 注入 tenant id。",
+    "input": "基于刚才的约束，另开一个分支探索 schema-per-tenant 会怎样，不要改变当前方案"
+  },
+  {
+    "id": "fork-whatif",
+    "expected": "fork",
+    "title": "视频脚本结构",
+    "recent": [
+      "为 Jev 视频设计脚本",
+      "现在是问题-原理-实测三段式",
+      "目标时长 8 分钟"
+    ],
+    "assistant": "主线脚本已经有 7 个 beat。",
+    "input": "如果改成 60 秒竖屏版，沿用这些论点但重新设计开场，会是什么结构？"
+  },
+  {
+    "id": "short-ambiguous-1",
+    "expected": "continue",
+    "title": "修复导出错误",
+    "recent": [
+      "修复导出 PDF 的分页错误",
+      "第二页标题被截断"
+    ],
+    "assistant": "我调整了 page-break 规则。",
+    "input": "还是不行，第二页呢？"
+  },
+  {
+    "id": "short-ambiguous-2",
+    "expected": "continue",
+    "title": "Implement retries",
+    "recent": [
+      "Implement exponential backoff",
+      "Cap retries at 4"
+    ],
+    "assistant": "The retry helper is ready.",
+    "input": "What about jitter?"
+  },
+  {
+    "id": "vague",
+    "expected": "continue",
+    "title": "重构权限检查",
+    "recent": [
+      "重构权限检查",
+      "把重复逻辑提取成 canAccess"
+    ],
+    "assistant": "三个路由已经迁移。",
+    "input": "继续处理剩下的，方式和刚才一样"
+  },
+  {
+    "id": "paste-code-related",
+    "expected": "continue",
+    "title": "Fix TypeScript build",
+    "recent": [
+      "Fix TypeScript build errors in router.ts",
+      "The error is around nullable config"
+    ],
+    "assistant": "Please paste the exact failing function.",
+    "input": "Here is the function:\n```ts\nfunction load(config?: Config) { return config.timeout.toString() }\n```\nFix the nullability issue without using any."
+  },
+  {
+    "id": "paste-log-related",
+    "expected": "continue",
+    "title": "排查 CI 失败",
+    "recent": [
+      "排查 CI 中的 Playwright 失败",
+      "本地无法复现"
+    ],
+    "assistant": "请贴 CI 的错误日志。",
+    "input": "日志如下：\nError: browserType.launch: Executable doesn't exist at /ms-playwright/chromium\n请修复 workflow"
+  },
+  {
+    "id": "paste-log-unrelated",
+    "expected": "new_session",
+    "title": "撰写数据库迁移文档",
+    "recent": [
+      "撰写数据库迁移文档",
+      "已经完成 rollback 章节"
+    ],
+    "assistant": "接下来补验证清单。",
+    "input": "另一个项目突然报错：\nECONNREFUSED 127.0.0.1:6379\n帮我排查这个 Redis 连接问题"
+  },
+  {
+    "id": "false-positive-word-overlap",
+    "expected": "new_session",
+    "title": "制作苹果公司财报视频",
+    "recent": [
+      "制作 Apple 财报视频",
+      "重点讲 iPhone 收入",
+      "封面使用深色背景"
+    ],
+    "assistant": "视频数据图已经整理好。",
+    "input": "我的 Apple Watch 无法同步健身数据，帮我排查"
+  },
+  {
+    "id": "false-positive-tool-overlap",
+    "expected": "new_session",
+    "title": "优化 Python 数据管道",
+    "recent": [
+      "优化 Python ETL 管道",
+      "用 pandas 清洗交易数据"
+    ],
+    "assistant": "清洗速度提高了三倍。",
+    "input": "请用 Python 帮我做一个贪吃蛇小游戏，这是独立任务"
+  },
+  {
+    "id": "false-negative-topic-shift",
+    "expected": "continue",
+    "title": "上线用户导入功能",
+    "recent": [
+      "实现用户 CSV 导入",
+      "代码和测试已经完成"
+    ],
+    "assistant": "The feature is ready to ship.",
+    "input": "Before deploying this feature, write the rollback steps and verify the production env vars."
+  },
+  {
+    "id": "pronoun",
+    "expected": "continue",
+    "title": "调查移动端崩溃",
+    "recent": [
+      "调查 iOS 分享页崩溃",
+      "定位到 nil URL",
+      "加了 guard"
+    ],
+    "assistant": "Crash is fixed in the local build.",
+    "input": "把这个也加到 release notes 里，然后跑一下它的测试"
+  },
+  {
+    "id": "related-research",
+    "expected": "continue",
+    "title": "选择向量数据库",
+    "recent": [
+      "为客服知识库选择向量数据库",
+      "候选是 pgvector 和 Qdrant"
+    ],
+    "assistant": "需要按现有规模比较成本。",
+    "input": "先查一下我们当前 200 万条文档规模下两者的内存需求，再做决定"
+  },
+  {
+    "id": "meta-session",
+    "expected": "continue",
+    "title": "构建 CLI 发布流程",
+    "recent": [
+      "构建 CLI 发布流程",
+      "npm provenance 已配置"
+    ],
+    "assistant": "发布脚本现在会验证 tag。",
+    "input": "总结一下我们到目前为止做了什么，以及还有哪些风险"
+  },
+  {
+    "id": "new-related-project",
+    "expected": "new_session",
+    "title": "修复 web app 登录",
+    "recent": [
+      "修复 web app 的 OAuth 登录",
+      "callback 已上线"
+    ],
+    "assistant": "Web app login is stable.",
+    "input": "Now start a separate task to add OAuth login to our unrelated mobile app; it has a different repository and stack."
+  },
+  {
+    "id": "fork-debug-alt",
+    "expected": "fork",
+    "title": "修复缓存失效",
+    "recent": [
+      "修复缓存失效 bug",
+      "主方案是用版本号 key",
+      "已经改完核心代码"
+    ],
+    "assistant": "主方案只差压测。",
+    "input": "保留当前改动，同时基于这些测试结果探索一下事件驱动失效方案是否更好"
+  },
+  {
+    "id": "mixed-pivot",
+    "expected": "new_session",
+    "title": "Build pricing page",
+    "recent": [
+      "Build the pricing page",
+      "年付切换已经完成"
+    ],
+    "assistant": "The pricing cards are responsive.",
+    "input": "先不管 pricing page 了。帮我 review 另一个 repo 的 Python data pipeline"
+  }
+]

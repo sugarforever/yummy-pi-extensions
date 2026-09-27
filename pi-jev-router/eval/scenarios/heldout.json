@@ -1,0 +1,253 @@
+[
+  {
+    "id": "h-fork-thread",
+    "expected": "fork",
+    "title": "写 Claude Code 使用心得博客",
+    "recent": [
+      "写一篇 Claude Code 使用心得",
+      "结构定为三个场景加一个总结",
+      "第二节已经写完"
+    ],
+    "assistant": "第三节草稿已经补上，等你确认。",
+    "input": "顺便基于同样的素材另写一版英文推文串，中文稿别动"
+  },
+  {
+    "id": "h-fork-graphql",
+    "expected": "fork",
+    "title": "Design orders REST API",
+    "recent": [
+      "Design the REST API for orders",
+      "Use cursor pagination",
+      "Errors follow RFC 7807"
+    ],
+    "assistant": "The OpenAPI spec for the five endpoints is done.",
+    "input": "Keeping the REST design as is, sketch what a GraphQL version of the same endpoints would look like."
+  },
+  {
+    "id": "h-fork-streams",
+    "expected": "fork",
+    "title": "优化通知发送吞吐",
+    "recent": [
+      "优化通知发送吞吐",
+      "现在用 BullMQ 批量发送",
+      "压测到 2k/s"
+    ],
+    "assistant": "批量大小调到 200 后延迟稳定。",
+    "input": "先别改现在的实现，另外试试用 Redis Streams 做同样的事，最后对比一下"
+  },
+  {
+    "id": "h-fork-abtest",
+    "expected": "fork",
+    "title": "Write pricing page copy",
+    "recent": [
+      "Write copy for the pricing page",
+      "Tone: calm and precise",
+      "Three tiers: Free, Pro, Team"
+    ],
+    "assistant": "Here is the final copy for all three tiers.",
+    "input": "Draft an alternative, more playful version of this copy for an A/B test; keep the current one."
+  },
+  {
+    "id": "h-fork-polars",
+    "expected": "fork",
+    "title": "清洗交易数据",
+    "recent": [
+      "用 pandas 清洗交易数据",
+      "去重和时区统一已经完成",
+      "输出 parquet"
+    ],
+    "assistant": "清洗脚本在 50 万行上耗时 40 秒。",
+    "input": "如果换成 Polars 实现同样的清洗流程，代码会是什么样？当前 pandas 版本保留"
+  },
+  {
+    "id": "h-fork-bluegreen",
+    "expected": "fork",
+    "title": "Plan the Postgres 16 upgrade",
+    "recent": [
+      "Plan the Postgres 16 upgrade",
+      "We chose logical replication",
+      "Cutover window is Sunday 2am"
+    ],
+    "assistant": "The runbook has 14 steps and a rollback section.",
+    "input": "What if we did this upgrade with a blue-green switch instead? Explore it separately, don't change the plan."
+  },
+  {
+    "id": "h-fork-lightning",
+    "expected": "fork",
+    "title": "准备 20 分钟技术分享",
+    "recent": [
+      "准备一个 20 分钟的 agent 分享",
+      "outline 分成背景、架构、踩坑",
+      "demo 放在第三部分"
+    ],
+    "assistant": "outline 和演讲备注都已经整理好。",
+    "input": "基于这份 outline 再出一个 5 分钟 lightning talk 版本，原来的 20 分钟版保持不变"
+  },
+  {
+    "id": "h-fork-ending",
+    "expected": "fork",
+    "title": "写短篇小说第五章",
+    "recent": [
+      "写短篇小说第五章",
+      "主角在车站和父亲和解",
+      "语气克制"
+    ],
+    "assistant": "第五章初稿完成，约 3000 字。",
+    "input": "用同样的设定写一个结局完全不同的版本试试，主线这一章不动"
+  },
+  {
+    "id": "h-cont-replace",
+    "expected": "continue",
+    "title": "修复缓存失效",
+    "recent": [
+      "修复缓存失效 bug",
+      "主方案是用版本号 key",
+      "核心代码已经改完"
+    ],
+    "assistant": "主方案只差压测。",
+    "input": "算了，把现在的方案直接改成事件驱动失效，版本号 key 不要了"
+  },
+  {
+    "id": "h-cont-switch",
+    "expected": "continue",
+    "title": "Clean transaction data",
+    "recent": [
+      "Clean transaction data with pandas",
+      "Dedup and timezone fixes are done"
+    ],
+    "assistant": "The script takes 40s on 500k rows.",
+    "input": "Actually switch the implementation to Polars and drop the pandas version."
+  },
+  {
+    "id": "h-cont-rewrite",
+    "expected": "continue",
+    "title": "写 Claude Code 使用心得博客",
+    "recent": [
+      "写一篇 Claude Code 使用心得",
+      "第二节已经写完"
+    ],
+    "assistant": "第三节草稿已经补上。",
+    "input": "把第二节重写得更口语一些，别太像说明书"
+  },
+  {
+    "id": "h-cont-shorten",
+    "expected": "continue",
+    "title": "Prepare the agent talk",
+    "recent": [
+      "Prepare a 20-minute talk on agents",
+      "Outline: background, architecture, lessons"
+    ],
+    "assistant": "Speaker notes are ready.",
+    "input": "The slot got cut, so shorten the whole talk to 10 minutes."
+  },
+  {
+    "id": "h-cont-param",
+    "expected": "continue",
+    "title": "设计订单查询 API",
+    "recent": [
+      "设计订单查询 API",
+      "已经支持按状态过滤"
+    ],
+    "assistant": "接口文档已更新。",
+    "input": "再加一个按创建时间范围过滤的参数"
+  },
+  {
+    "id": "h-cont-approach",
+    "expected": "continue",
+    "title": "Fix the crash on malformed input",
+    "recent": [
+      "Fix the crash on malformed JSON input",
+      "Added a guard in the handler"
+    ],
+    "assistant": "The guard is in, but the fuzz test still crashes.",
+    "input": "Try a different approach: the guard didn't work, patch it in the parser instead."
+  },
+  {
+    "id": "h-cont-risk",
+    "expected": "continue",
+    "title": "规划 Postgres 16 升级",
+    "recent": [
+      "规划 Postgres 16 升级",
+      "决定用逻辑复制"
+    ],
+    "assistant": "runbook 有 14 步。",
+    "input": "这个方案最大的三个风险是什么？"
+  },
+  {
+    "id": "h-cont-metrics",
+    "expected": "continue",
+    "title": "Add a read-through cache",
+    "recent": [
+      "Add a read-through cache for product lookups",
+      "TTL is 60 seconds"
+    ],
+    "assistant": "The cache is wired into the product service.",
+    "input": "Add metrics so we can see the cache hit rate in Grafana."
+  },
+  {
+    "id": "h-cont-windows",
+    "expected": "continue",
+    "title": "修复跨平台构建",
+    "recent": [
+      "修复 macOS 上的构建失败",
+      "原因是路径分隔符"
+    ],
+    "assistant": "macOS 构建已经通过。",
+    "input": "那 Windows 上的构建呢？也按同样方式检查一下"
+  },
+  {
+    "id": "h-cont-ship",
+    "expected": "continue",
+    "title": "实现导出 CSV",
+    "recent": [
+      "实现导出 CSV",
+      "测试都通过了"
+    ],
+    "assistant": "功能完成，等你 review。",
+    "input": "LGTM，commit 一下然后开一个 PR"
+  },
+  {
+    "id": "h-new-email",
+    "expected": "new_session",
+    "title": "调试前端表单校验",
+    "recent": [
+      "调试注册表单的校验",
+      "邮箱格式校验没有触发"
+    ],
+    "assistant": "问题在 onBlur 没有绑定。",
+    "input": "帮我写一封下周请两天假的邮件，发给我的经理"
+  },
+  {
+    "id": "h-new-nas",
+    "expected": "new_session",
+    "title": "Debug the ingress 502s",
+    "recent": [
+      "Debug intermittent 502s on the ingress",
+      "Upstream keepalive looks suspicious"
+    ],
+    "assistant": "Raising keepalive_timeout reduced the errors.",
+    "input": "Explain how to set up my new home NAS with RAID 5."
+  },
+  {
+    "id": "h-new-other-repo",
+    "expected": "new_session",
+    "title": "优化 Python 数据管道",
+    "recent": [
+      "优化 Python ETL 管道",
+      "瓶颈在 pandas merge"
+    ],
+    "assistant": "改成分块 merge 之后快了两倍。",
+    "input": "另一个仓库的 Go 服务出现内存泄漏，帮我看看 pprof 应该怎么抓"
+  },
+  {
+    "id": "h-new-trivia",
+    "expected": "new_session",
+    "title": "Implement rate limiting",
+    "recent": [
+      "Implement per-user rate limiting",
+      "Token bucket in Redis"
+    ],
+    "assistant": "The limiter passes the burst tests.",
+    "input": "Unrelated: what's the capital of Australia?"
+  }
+]
